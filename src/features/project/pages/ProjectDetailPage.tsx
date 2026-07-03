@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   AlertCircle,
   ArrowLeft,
+  ArrowRight,
   Calendar,
   Code2,
   Database,
@@ -21,7 +22,12 @@ import { Section } from "../../../shared/components/Section";
 import { CustomButton } from "../../../shared/components/CustomButton";
 import Overlay from "../../../shared/components/Overlay";
 import EditProjectModal from "../components/EditProjectModal";
-import { useDeleteProject, useProject } from "../hooks/useProject";
+import ChangeStatusModal from "../components/ChangeStatusModal";
+import {
+  useDeleteProject,
+  useProject,
+  useUpdateProject,
+} from "../hooks/useProject";
 import { notify } from "../../../shared/utils/notify";
 import {
   PROJECT_PRIORITY_LABELS,
@@ -30,7 +36,17 @@ import {
   REPO_TYPE_LABELS,
 } from "../constants/projectConstants";
 import { PROJECT_ICON_MAP } from "../constants/projectPalette";
-import type { Project, RepoType, TechCategory } from "../project";
+import {
+  getNextStatus,
+  getStatusLabel,
+  projectToFormState,
+} from "../utils/projectUtils";
+import type {
+  Project,
+  ProjectStatus,
+  RepoType,
+  TechCategory,
+} from "../project";
 import ProjectModulesSection from "../../module/components/ProjectModulesSection";
 
 const techCategories: TechCategory[] = ["frontend", "backend", "database"];
@@ -59,8 +75,13 @@ export default function ProjectDetailPage() {
   const navigate = useNavigate();
   const { data: project, isLoading, isError, error } = useProject(id);
   const { mutate: deleteProject, isPending: isDeleting } = useDeleteProject();
+  const { mutate: updateProject, isPending: isUpdatingStatus } =
+    useUpdateProject();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isChangeStatusOpen, setIsChangeStatusOpen] = useState(false);
+
+  const nextStatus = project ? getNextStatus(project.status) : null;
 
   function handleDelete() {
     if (!project) return;
@@ -74,6 +95,27 @@ export default function ProjectDetailPage() {
         notify.error(err.message || "No fue posible eliminar el proyecto.");
       },
     });
+  }
+
+  function handleChangeStatus() {
+    if (!project || !nextStatus) return;
+    updateProject(
+      {
+        id: project.id,
+        input: { ...projectToFormState(project), status: nextStatus },
+      },
+      {
+        onSuccess: () => {
+          notify.success(
+            `Proyecto movido a ${PROJECT_STATUS_LABELS[nextStatus]}.`,
+          );
+          setIsChangeStatusOpen(false);
+        },
+        onError: (err) => {
+          notify.error(err.message || "No fue posible cambiar el estado.");
+        },
+      },
+    );
   }
 
   return (
@@ -120,7 +162,11 @@ export default function ProjectDetailPage() {
           <DetailNotFound onBack={() => navigate("/projects")} />
         ) : (
           <>
-            <ProjectDetail project={project} />
+            <ProjectDetail
+              project={project}
+              nextStatus={nextStatus}
+              onChangeStatusClick={() => setIsChangeStatusOpen(true)}
+            />
             <EditProjectModal
               isOpen={isEditOpen}
               onClose={() => setIsEditOpen(false)}
@@ -133,6 +179,17 @@ export default function ProjectDetailPage() {
               onClose={() => setIsDeleteOpen(false)}
               onConfirm={handleDelete}
             />
+            {nextStatus && (
+              <ChangeStatusModal
+                isOpen={isChangeStatusOpen}
+                isUpdating={isUpdatingStatus}
+                projectName={project.name}
+                currentStatusLabel={getStatusLabel(project.status)}
+                nextStatusLabel={getStatusLabel(nextStatus)}
+                onClose={() => setIsChangeStatusOpen(false)}
+                onConfirm={handleChangeStatus}
+              />
+            )}
           </>
         )}
       </div>
@@ -202,7 +259,15 @@ function DeleteProjectModal({
   );
 }
 
-function ProjectDetail({ project }: { project: Project }) {
+function ProjectDetail({
+  project,
+  nextStatus,
+  onChangeStatusClick,
+}: {
+  project: Project;
+  nextStatus: ProjectStatus | null;
+  onChangeStatusClick: () => void;
+}) {
   const IconComponent = project.icon
     ? PROJECT_ICON_MAP[project.icon]
     : undefined;
@@ -212,7 +277,7 @@ function ProjectDetail({ project }: { project: Project }) {
     <>
       <header className="rounded-2xl border border-neutral-200 bg-secondary p-6 shadow-sm">
         <div
-          className="w-full rounded-full h-2 mb-4"
+          className="w-full rounded-full h-1 mb-4"
           style={{
             backgroundColor: project.color ? `${project.color}` : undefined,
           }}
@@ -250,9 +315,21 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
-            {PROJECT_STATUS_LABELS[project.status]}
-          </span>
+          {nextStatus ? (
+            <button
+              type="button"
+              onClick={onChangeStatusClick}
+              title={`Avanzar a ${PROJECT_STATUS_LABELS[nextStatus]}`}
+              className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700 transition hover:bg-neutral-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-neutral-300"
+            >
+              {PROJECT_STATUS_LABELS[project.status]}
+              <ArrowRight className="h-3 w-3" />
+            </button>
+          ) : (
+            <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+              {PROJECT_STATUS_LABELS[project.status]}
+            </span>
+          )}
           <span className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
             Prioridad: {PROJECT_PRIORITY_LABELS[project.priority]}
           </span>

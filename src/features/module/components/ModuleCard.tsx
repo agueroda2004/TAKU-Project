@@ -21,16 +21,19 @@ export default function ModuleCard({ module, projectId }: ModuleCardProps) {
       to={`/projects/${projectId}/modules/${module.id}`}
       className="group block rounded-xl border border-neutral-200 bg-secondary p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
     >
+      <div
+        className="w-full h-1 bg-black rounded-full mb-4"
+        style={{
+          background: `${module.color}`,
+        }}
+      />
       <div className="flex items-start gap-3">
         {module.color ? (
           <div
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
             style={{ backgroundColor: `${module.color}1a` }}
           >
-            <DisplayIcon
-              className="h-4 w-4"
-              style={{ color: module.color }}
-            />
+            <DisplayIcon className="h-4 w-4" style={{ color: module.color }} />
           </div>
         ) : (
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-neutral-100">

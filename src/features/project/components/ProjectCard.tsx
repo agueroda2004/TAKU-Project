@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Star, FolderKanban } from "lucide-react";
+import { Star } from "lucide-react";
 import { PROJECT_STATUS_LABELS } from "../constants/projectConstants";
 import type { ProjectListItem } from "../project";
 
@@ -13,17 +13,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       to={`/projects/${project.id}`}
       className="group block rounded-xl border border-neutral-200 bg-secondary p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
     >
+      <div
+        className="w-full h-1 bg-black mb-4 rounded-full"
+        style={{
+          backgroundColor: project.color ? `${project.color}` : undefined,
+        }}
+      />
       <div className="flex items-start justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          {project.color ? (
-            <span
-              className="h-3 w-3 shrink-0 rounded-full"
-              style={{ backgroundColor: project.color }}
-              aria-hidden
-            />
-          ) : (
-            <FolderKanban className="h-4 w-4 shrink-0 text-neutral-400" />
-          )}
           <h3 className="font-comfortaa truncate text-sm font-semibold text-primary group-hover:underline">
             {project.name}
           </h3>

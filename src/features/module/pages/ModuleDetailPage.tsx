@@ -12,6 +12,10 @@ import { CustomButton } from "../../../shared/components/CustomButton";
 import Overlay from "../../../shared/components/Overlay";
 import EditModuleModal from "../components/EditModuleModal";
 import ChangeStatusModal from "../components/ChangeStatusModal";
+import ModuleTasksSection from "../../task/components/ModuleTasksSection";
+import ModuleBugsSection from "../../bug/components/ModuleBugsSection";
+import ModuleNotesSection from "../../note/components/ModuleNotesSection";
+import ModuleDocumentationsSection from "../../documentation/components/ModuleDocumentationsSection";
 import {
   useDeleteModule,
   useModule,
@@ -186,7 +190,13 @@ export default function ModuleDetailPage() {
           </div>
         </div>
 
-        <header className="rounded-2xl border border-neutral-200 bg-secondary p-6 shadow-sm">
+        <header className="rounded-2xl border border-neutral-200 bg-secondary p-6 shadow-sm ">
+          <div
+            className="w-full h-1 bg-black mb-4 rounded-full"
+            style={{
+              backgroundColor: `${module.color}`,
+            }}
+          />
           <div className="flex items-start gap-3">
             <div
               className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
@@ -241,6 +251,14 @@ export default function ModuleDetailPage() {
             )}
           </div>
         </header>
+
+        <ModuleTasksSection moduleId={module.id} />
+
+        <ModuleBugsSection moduleId={module.id} />
+
+        <ModuleNotesSection moduleId={module.id} />
+
+        <ModuleDocumentationsSection moduleId={module.id} />
 
         <EditModuleModal
           isOpen={isEditOpen}
