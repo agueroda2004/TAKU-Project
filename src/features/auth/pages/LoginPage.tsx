@@ -29,7 +29,7 @@ export default function LoginPage() {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/projects" replace />;
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -45,9 +45,12 @@ export default function LoginPage() {
     setSubmitting(true);
 
     try {
-      await signIn({ email: result.data.email, password: result.data.password });
+      await signIn({
+        email: result.data.email,
+        password: result.data.password,
+      });
       notify.success("Sesión iniciada correctamente.");
-      navigate("/dashboard", { replace: true });
+      navigate("/projects", { replace: true });
     } catch (err) {
       const message =
         err instanceof Error
@@ -68,19 +71,33 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-100 px-4">
       <div className="w-full max-w-md rounded-2xl bg-secondary p-8 shadow-xl">
-        <div className="mb-6 flex flex-col items-center gap-2">
-          <div className="rounded-full bg-neutral-100 p-3">
-            <LogIn className="h-6 w-6 text-primary" />
+        <div className="mb-8 flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center">
+            <h1 className="font-comfortaa mt-1 text-5xl font-bold tracking-[0.18em] text-primary">
+              TAKU
+            </h1>
+            <span className="font-comfortaa text-[10px] font-semibold uppercase tracking-[0.5em] text-neutral-400">
+              Project
+            </span>
           </div>
-          <h1 className="font-comfortaa text-2xl font-bold text-primary">
-            Bienvenido
-          </h1>
-          <p className="font-comfortaa text-sm text-neutral-500">
-            Inicia sesión para continuar
-          </p>
+
+          <div className="h-px w-10 bg-neutral-300" />
+
+          <div className="flex flex-col items-center gap-1">
+            <h2 className="font-comfortaa text-base font-semibold text-neutral-700">
+              Bienvenido
+            </h2>
+            <p className="font-comfortaa text-sm text-neutral-500">
+              Inicia sesión para continuar
+            </p>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="flex flex-col gap-4"
+        >
           <label className="flex flex-col gap-1">
             <span className="font-comfortaa text-sm font-medium text-neutral-700">
               Correo electrónico
