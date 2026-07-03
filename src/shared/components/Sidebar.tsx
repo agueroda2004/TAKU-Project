@@ -1,46 +1,18 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  FolderKanban,
-  LogOut,
-  UserCircle2,
-  Loader2,
-} from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { FolderKanban, LogOut, UserCircle2, Loader2 } from "lucide-react";
 import { useAuth } from "../../features/auth/hooks/useAuth";
-import { signOut } from "../../features/auth/services/authService";
-import { notify } from "../utils/notify";
+import { useSignOut } from "../../features/auth/hooks/useSignOut";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/projects", label: "Proyectos", icon: FolderKanban },
 ] as const;
 
 export default function Sidebar() {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const [signingOut, setSigningOut] = useState(false);
-
-  async function handleSignOut() {
-    if (signingOut) return;
-    setSigningOut(true);
-    try {
-      await signOut();
-      notify.success("Sesión cerrada correctamente.");
-      navigate("/login", { replace: true });
-    } catch (err) {
-      const message =
-        err instanceof Error
-          ? friendlySignOutError(err.message)
-          : "No fue posible cerrar la sesión.";
-      notify.error(message);
-    } finally {
-      setSigningOut(false);
-    }
-  }
+  const { handleSignOut, signingOut } = useSignOut();
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-neutral-200 bg-secondary sticky top-0 h-screen">
+    <aside className="hidden w-64 shrink-0 flex-col border-r border-neutral-200 bg-secondary md:flex md:sticky md:top-0 md:h-screen">
       <div className="flex h-16 items-center border-b border-neutral-200 px-6">
         <span className="font-comfortaa text-lg font-bold tracking-wide text-primary">
           TAKU-Project
@@ -100,12 +72,4 @@ export default function Sidebar() {
       </div>
     </aside>
   );
-}
-
-function friendlySignOutError(message: string): string {
-  const lower = message.toLowerCase();
-  if (lower.includes("network") || lower.includes("fetch")) {
-    return "Sin conexión. Intenta cerrar sesión de nuevo.";
-  }
-  return message;
 }

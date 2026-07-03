@@ -71,7 +71,7 @@ export default function Overlay({
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        className={`font-comfortaa relative w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto rounded-2xl bg-secondary p-6 shadow-2xl ${className}`}
+        className={`font-comfortaa relative w-full ${sizeClasses[size]} max-h-[90vh] rounded-2xl bg-secondary p-6 shadow-2xl ${className}`}
       >
         {(title || !hideCloseButton) && (
           <div className="mb-4 flex items-start justify-between gap-4 px-4 py-2">
