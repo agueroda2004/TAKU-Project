@@ -1,13 +1,18 @@
 import { ArrowRight, AlertCircle } from "lucide-react";
 import Overlay from "../../../shared/components/Overlay";
 import { CustomButton } from "../../../shared/components/CustomButton";
+import {
+  MODULE_STATUS_LABELS,
+  MODULE_STATUS_TONES,
+} from "../constants/moduleConstants";
+import type { ModuleStatus } from "../module";
 
 interface ChangeStatusModalProps {
   isOpen: boolean;
   isUpdating: boolean;
   moduleName: string;
-  currentStatusLabel: string;
-  nextStatusLabel: string;
+  currentStatus: ModuleStatus;
+  nextStatus: ModuleStatus;
   onClose: () => void;
   onConfirm: () => void;
 }
@@ -16,8 +21,8 @@ export default function ChangeStatusModal({
   isOpen,
   isUpdating,
   moduleName,
-  currentStatusLabel,
-  nextStatusLabel,
+  currentStatus,
+  nextStatus,
   onClose,
   onConfirm,
 }: ChangeStatusModalProps) {
@@ -36,17 +41,28 @@ export default function ChangeStatusModal({
             ¿Estás seguro que deseas cambiar el módulo{" "}
             <span className="font-semibold">{moduleName}</span> al siguiente
             estado{" "}
-            <span className="font-semibold">{nextStatusLabel}</span>?
+            <span className="font-semibold">
+              {MODULE_STATUS_LABELS[nextStatus]}
+            </span>
+            ?
           </p>
         </div>
 
         <div className="flex items-center justify-center gap-3 rounded-lg border border-neutral-200 bg-secondary p-3">
-          <span className="font-comfortaa rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700">
-            {currentStatusLabel}
+          <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700">
+            <span
+              aria-hidden
+              className={`h-1.5 w-1.5 rounded-full ${MODULE_STATUS_TONES[currentStatus].dot}`}
+            />
+            {MODULE_STATUS_LABELS[currentStatus]}
           </span>
           <ArrowRight className="h-4 w-4 text-neutral-500" />
-          <span className="font-comfortaa rounded-full bg-primary px-3 py-1 text-xs font-semibold text-secondary">
-            {nextStatusLabel}
+          <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700">
+            <span
+              aria-hidden
+              className={`h-1.5 w-1.5 rounded-full ${MODULE_STATUS_TONES[nextStatus].dot}`}
+            />
+            {MODULE_STATUS_LABELS[nextStatus]}
           </span>
         </div>
 

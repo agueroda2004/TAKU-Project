@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import { Package } from "lucide-react";
 import {
   MODULE_PRIORITY_LABELS,
+  MODULE_PRIORITY_TONES,
   MODULE_STATUS_LABELS,
+  MODULE_STATUS_TONES,
 } from "../constants/moduleConstants";
 import { PROJECT_ICON_MAP } from "../../project/constants/projectPalette";
 import type { ModuleListItem } from "../module";
@@ -54,10 +56,18 @@ export default function ModuleCard({ module, projectId }: ModuleCardProps) {
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${MODULE_STATUS_TONES[module.status].dot}`}
+          />
           {MODULE_STATUS_LABELS[module.status]}
         </span>
-        <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${MODULE_PRIORITY_TONES[module.priority].dot}`}
+          />
           {MODULE_PRIORITY_LABELS[module.priority]}
         </span>
       </div>

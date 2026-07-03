@@ -52,3 +52,23 @@ export const BUG_STATUS_TONES: Record<BugStatus, BugStatusToneClasses> = {
     dot: "bg-neutral-400",
   },
 };
+
+export type BugPriorityToneClasses = {
+  pill: string;
+  dot: string;
+};
+
+export const BUG_PRIORITY_TONES: Record<BugPriority, BugPriorityToneClasses> = {
+  baja: {
+    pill: "bg-neutral-100 text-neutral-700",
+    dot: "bg-neutral-400",
+  },
+  media: {
+    pill: "bg-yellow-100 text-yellow-700",
+    dot: "bg-yellow-500",
+  },
+  alta: {
+    pill: "bg-red-100 text-red-700",
+    dot: "bg-red-500",
+  },
+};

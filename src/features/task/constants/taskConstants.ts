@@ -46,3 +46,23 @@ export const TASK_STATUS_TONES: Record<TaskStatus, TaskStatusToneClasses> = {
     dot: "bg-green-500",
   },
 };
+
+export type TaskPriorityToneClasses = {
+  pill: string;
+  dot: string;
+};
+
+export const TASK_PRIORITY_TONES: Record<TaskPriority, TaskPriorityToneClasses> = {
+  baja: {
+    pill: "bg-neutral-100 text-neutral-700",
+    dot: "bg-neutral-400",
+  },
+  media: {
+    pill: "bg-yellow-100 text-yellow-700",
+    dot: "bg-yellow-500",
+  },
+  alta: {
+    pill: "bg-red-100 text-red-700",
+    dot: "bg-red-500",
+  },
+};

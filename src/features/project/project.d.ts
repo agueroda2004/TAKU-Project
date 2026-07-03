@@ -69,6 +69,7 @@ export interface ProjectListItem {
   id: string;
   name: string;
   status: ProjectStatus;
+  priority: ProjectPriority;
   isFavorite: boolean;
   description: string | null;
   color: string | null;

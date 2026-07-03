@@ -55,7 +55,7 @@ export async function getProjects(
 ): Promise<ProjectListItem[]> {
   let query = supabase
     .from("projects")
-    .select("id, name, status, is_favorite, description, color")
+    .select("id, name, status, priority, is_favorite, description, color")
     .order("is_favorite", { ascending: false })
     .order("name", { ascending: true });
 
@@ -89,6 +89,7 @@ export async function getProjects(
     id: row.id,
     name: row.name,
     status: row.status,
+    priority: row.priority,
     isFavorite: row.is_favorite,
     description: row.description,
     color: row.color,

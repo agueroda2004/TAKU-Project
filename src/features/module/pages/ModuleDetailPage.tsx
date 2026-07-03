@@ -28,13 +28,11 @@ import {
 } from "../../project/constants/projectPalette";
 import {
   MODULE_PRIORITY_LABELS,
+  MODULE_PRIORITY_TONES,
   MODULE_STATUS_LABELS,
+  MODULE_STATUS_TONES,
 } from "../constants/moduleConstants";
-import {
-  getNextStatus,
-  getStatusLabel,
-  moduleToFormState,
-} from "../utils/moduleUtils";
+import { getNextStatus, moduleToFormState } from "../utils/moduleUtils";
 import { notify } from "../../../shared/utils/notify";
 
 export default function ModuleDetailPage() {
@@ -227,18 +225,30 @@ export default function ModuleDetailPage() {
                 type="button"
                 onClick={() => setIsChangeStatusOpen(true)}
                 title={`Avanzar a ${MODULE_STATUS_LABELS[nextStatus]}`}
-                className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700 transition hover:bg-neutral-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-neutral-300"
+                className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700 transition hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-300"
               >
+                <span
+                  aria-hidden
+                  className={`h-1.5 w-1.5 rounded-full ${MODULE_STATUS_TONES[module.status].dot}`}
+                />
                 {MODULE_STATUS_LABELS[module.status]}
                 <ArrowRight className="h-3 w-3" />
               </button>
             ) : (
-              <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+              <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+                <span
+                  aria-hidden
+                  className={`h-1.5 w-1.5 rounded-full ${MODULE_STATUS_TONES[module.status].dot}`}
+                />
                 {MODULE_STATUS_LABELS[module.status]}
               </span>
             )}
-            <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
-              Prioridad: {MODULE_PRIORITY_LABELS[module.priority]}
+            <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+              <span
+                aria-hidden
+                className={`h-1.5 w-1.5 rounded-full ${MODULE_PRIORITY_TONES[module.priority].dot}`}
+              />
+              {MODULE_PRIORITY_LABELS[module.priority]}
             </span>
             {module.color && (
               <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
@@ -271,8 +281,8 @@ export default function ModuleDetailPage() {
             isOpen={isChangeStatusOpen}
             isUpdating={isUpdatingStatus}
             moduleName={module.name}
-            currentStatusLabel={getStatusLabel(module.status)}
-            nextStatusLabel={getStatusLabel(nextStatus)}
+            currentStatus={module.status}
+            nextStatus={nextStatus}
             onClose={() => setIsChangeStatusOpen(false)}
             onConfirm={handleChangeStatus}
           />

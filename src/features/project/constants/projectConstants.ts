@@ -35,6 +35,58 @@ export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
   mantenimiento: "Mantenimiento",
 };
 
+export type ProjectStatusToneClasses = {
+  pill: string;
+  dot: string;
+};
+
+export const PROJECT_STATUS_TONES: Record<ProjectStatus, ProjectStatusToneClasses> = {
+  idea: {
+    pill: "bg-neutral-100 text-neutral-700",
+    dot: "bg-neutral-400",
+  },
+  planeacion: {
+    pill: "bg-cyan-100 text-cyan-700",
+    dot: "bg-cyan-500",
+  },
+  desarrollo: {
+    pill: "bg-blue-100 text-blue-700",
+    dot: "bg-blue-500",
+  },
+  testing: {
+    pill: "bg-yellow-100 text-yellow-700",
+    dot: "bg-yellow-500",
+  },
+  produccion: {
+    pill: "bg-green-100 text-green-700",
+    dot: "bg-green-500",
+  },
+  mantenimiento: {
+    pill: "bg-orange-100 text-orange-700",
+    dot: "bg-orange-500",
+  },
+};
+
+export type ProjectPriorityToneClasses = {
+  pill: string;
+  dot: string;
+};
+
+export const PROJECT_PRIORITY_TONES: Record<ProjectPriority, ProjectPriorityToneClasses> = {
+  baja: {
+    pill: "bg-neutral-100 text-neutral-700",
+    dot: "bg-neutral-400",
+  },
+  media: {
+    pill: "bg-yellow-100 text-yellow-700",
+    dot: "bg-yellow-500",
+  },
+  alta: {
+    pill: "bg-red-100 text-red-700",
+    dot: "bg-red-500",
+  },
+};
+
 export const TECH_CATEGORIES: readonly TechCategory[] = [
   "frontend",
   "backend",

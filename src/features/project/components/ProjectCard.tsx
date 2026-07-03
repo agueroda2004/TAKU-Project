@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
-import { PROJECT_STATUS_LABELS } from "../constants/projectConstants";
+import {
+  PROJECT_PRIORITY_LABELS,
+  PROJECT_PRIORITY_TONES,
+  PROJECT_STATUS_LABELS,
+  PROJECT_STATUS_TONES,
+} from "../constants/projectConstants";
 import type { ProjectListItem } from "../project";
 
 interface ProjectCardProps {
@@ -39,9 +44,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </p>
       )}
 
-      <div className="mt-3">
-        <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-700">
+      <div className="mt-3 flex flex-wrap items-center gap-1.5">
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${PROJECT_STATUS_TONES[project.status].dot}`}
+          />
           {PROJECT_STATUS_LABELS[project.status]}
+        </span>
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${PROJECT_PRIORITY_TONES[project.priority].dot}`}
+          />
+          {PROJECT_PRIORITY_LABELS[project.priority]}
         </span>
       </div>
     </Link>

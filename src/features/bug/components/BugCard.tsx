@@ -1,6 +1,7 @@
 import { Bug as BugIcon, Pencil, Trash2 } from "lucide-react";
 import {
   BUG_PRIORITY_LABELS,
+  BUG_PRIORITY_TONES,
   BUG_STATUS_LABELS,
   BUG_STATUS_TONES,
 } from "../constants/bugConstants";
@@ -64,7 +65,7 @@ export default function BugCard({
           type="button"
           onClick={() => onChangeStatus(bug)}
           title={`Estado actual: ${BUG_STATUS_LABELS[bug.status]}. Click para cambiar.`}
-          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 ${BUG_STATUS_TONES[bug.status].pill}`}
+          className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700 transition hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300"
         >
           <span
             aria-hidden
@@ -72,7 +73,11 @@ export default function BugCard({
           />
           {BUG_STATUS_LABELS[bug.status]}
         </button>
-        <span className="inline-flex rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${BUG_PRIORITY_TONES[bug.priority].dot}`}
+          />
           {BUG_PRIORITY_LABELS[bug.priority]}
         </span>
       </div>

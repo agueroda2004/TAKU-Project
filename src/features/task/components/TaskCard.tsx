@@ -13,6 +13,7 @@ import { CustomButton } from "../../../shared/components/CustomButton";
 import { notify } from "../../../shared/utils/notify";
 import {
   TASK_PRIORITY_LABELS,
+  TASK_PRIORITY_TONES,
   TASK_STATUS_LABELS,
   TASK_STATUS_TONES,
 } from "../constants/taskConstants";
@@ -101,7 +102,7 @@ export default function TaskCard({
           type="button"
           onClick={() => onChangeStatus(task)}
           title={`Estado actual: ${TASK_STATUS_LABELS[task.status]}. Click para cambiar.`}
-          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300 ${TASK_STATUS_TONES[task.status].pill}`}
+          className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700 transition hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-300"
         >
           <span
             aria-hidden
@@ -109,7 +110,11 @@ export default function TaskCard({
           />
           {TASK_STATUS_LABELS[task.status]}
         </button>
-        <span className="inline-flex rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+        <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-700">
+          <span
+            aria-hidden
+            className={`h-1.5 w-1.5 rounded-full ${TASK_PRIORITY_TONES[task.priority].dot}`}
+          />
           {TASK_PRIORITY_LABELS[task.priority]}
         </span>
         <SubtaskCountBadge taskId={task.id} />

@@ -31,16 +31,14 @@ import {
 import { notify } from "../../../shared/utils/notify";
 import {
   PROJECT_PRIORITY_LABELS,
+  PROJECT_PRIORITY_TONES,
   PROJECT_STATUS_LABELS,
+  PROJECT_STATUS_TONES,
   TECH_CATEGORY_LABELS,
   REPO_TYPE_LABELS,
 } from "../constants/projectConstants";
 import { PROJECT_ICON_MAP } from "../constants/projectPalette";
-import {
-  getNextStatus,
-  getStatusLabel,
-  projectToFormState,
-} from "../utils/projectUtils";
+import { getNextStatus, projectToFormState } from "../utils/projectUtils";
 import type {
   Project,
   ProjectStatus,
@@ -184,8 +182,8 @@ export default function ProjectDetailPage() {
                 isOpen={isChangeStatusOpen}
                 isUpdating={isUpdatingStatus}
                 projectName={project.name}
-                currentStatusLabel={getStatusLabel(project.status)}
-                nextStatusLabel={getStatusLabel(nextStatus)}
+                currentStatus={project.status}
+                nextStatus={nextStatus}
                 onClose={() => setIsChangeStatusOpen(false)}
                 onConfirm={handleChangeStatus}
               />
@@ -320,18 +318,30 @@ function ProjectDetail({
               type="button"
               onClick={onChangeStatusClick}
               title={`Avanzar a ${PROJECT_STATUS_LABELS[nextStatus]}`}
-              className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700 transition hover:bg-neutral-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-neutral-300"
+              className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700 transition hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-300"
             >
+              <span
+                aria-hidden
+                className={`h-1.5 w-1.5 rounded-full ${PROJECT_STATUS_TONES[project.status].dot}`}
+              />
               {PROJECT_STATUS_LABELS[project.status]}
               <ArrowRight className="h-3 w-3" />
             </button>
           ) : (
-            <span className="font-comfortaa inline-flex rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+            <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+              <span
+                aria-hidden
+                className={`h-1.5 w-1.5 rounded-full ${PROJECT_STATUS_TONES[project.status].dot}`}
+              />
               {PROJECT_STATUS_LABELS[project.status]}
             </span>
           )}
-          <span className="font-comfortaa inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
-            Prioridad: {PROJECT_PRIORITY_LABELS[project.priority]}
+          <span className="font-comfortaa inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-700">
+            <span
+              aria-hidden
+              className={`h-1.5 w-1.5 rounded-full ${PROJECT_PRIORITY_TONES[project.priority].dot}`}
+            />
+            {PROJECT_PRIORITY_LABELS[project.priority]}
           </span>
         </div>
       </header>
