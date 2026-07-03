@@ -3,7 +3,6 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { useAuth } from "./features/auth/hooks/useAuth";
 import LoginPage from "./features/auth/pages/LoginPage";
-import DashboardPage from "./features/auth/pages/DashboardPage";
 import ProjectsPage from "./features/project/pages/ProjectsPage";
 import ProjectDetailPage from "./features/project/pages/ProjectDetailPage";
 import ProjectModulesPage from "./features/module/pages/ProjectModulesPage";
@@ -33,16 +32,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<RootRedirect />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <AppLayout>
-                  <DashboardPage />
-                </AppLayout>
-              </ProtectedRoute>
-            }
-          />
           <Route
             path="/projects"
             element={
